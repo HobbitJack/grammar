@@ -46,8 +46,10 @@ help(char* progname)
 void
 version(char* progname)
 {
-	printf("%s v1.0.0\n", progname);
+	printf("%s v1.1.0\n", progname);
 	printf("harper-c v%s\n", harper_get_lib_version());
+	printf("harper-core v%s\n", harper_get_core_version());
+	puts("");
 	puts("Copyright (C) 2024 Jack Renton Uteg.");
 	puts("License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.");
 	puts("This is free software: you are free to change and redistribute it.");
