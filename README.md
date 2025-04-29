@@ -4,7 +4,7 @@ As support for the C interface is currently not yet merged into upstream, you wi
 
 ## INSTALLATION
 Installation is currently semi-manual.
-After compiling `libharper_c.so`, you'll need to move that to some place your compiler/linker can find it (I symlinked it to `/usr/lib/libharper_c.so`).
+After compiling `libharper.so`, you'll need to move that to some place your compiler/linker can find it (I symlinked it to `/usr/lib/libharper.so`).
 Then, build and installe th program with
 ```
 $ make
