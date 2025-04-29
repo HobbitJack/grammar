@@ -1,4 +1,4 @@
-.TH GRAMMAR "1" "April 2025" "grammar v1.1.0" "User Commands"
+.TH GRAMMAR "1" "April 2025" "grammar v1.2.0" "User Commands"
 .SH NAME
 grammar \- check grammar
 .SH SYNOPSIS
@@ -16,6 +16,11 @@ All lines starting with any character in \fICOMMENT\fR will be ignored; use this
 .TP
 \fB\-d\fR, \fB\-\-delimiter\fR=\fI\,DELIMITER\/\fR
 Outputted suggestions will start with the \fIDELIMITER\fR string.
+.TP
+\fB\-e\fR, \fB\-\-exit\-normally\fR
+Change the exit status when mistakes are found from 1 to 0.
+The program will still exit with status 127 if it exits abnormally.
+This is useful if you care about checking for program failure more than knowing if mistakes were found.
 .TP
 \fB\-f\fR, \fB\-\-fix\-file\fR
 \fB(NOT YET IMPLEMENTED)\fR

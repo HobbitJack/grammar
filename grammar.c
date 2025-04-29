@@ -9,6 +9,7 @@
 
 #include "harper.h"
 
+static int exit_mistakes = 1;
 static int fix = 0;
 static int number = 0;
 static int verbosity = 0;
@@ -30,6 +31,7 @@ help(char* progname)
 	puts("Mandatory options to long options are mandatory for short options too.");
 	puts("  -c, --comment=COMMENT       ignore lines starting with any character in COMMENT");
 	puts("  -d, --delimiter=DELIMITER   start suggestion lines with DELIMITER (default: '')");
+	puts("  -e, --exit-normally         exit with exit code 0 even if mistakes found");
 	puts("  -f, --fix-file              automatically apply suggestions");
 	puts("  -n, --number-lines          provide line:col number for each suggestion");
 	puts("  -o, --document-output=FILE  output document text to FILE");
@@ -46,7 +48,7 @@ help(char* progname)
 void
 version(char* progname)
 {
-	printf("%s v1.1.0\n", progname);
+	printf("%s v1.2.0\n", progname);
 	printf("harper-c v%s\n", harper_get_lib_version());
 	printf("harper-core v%s\n", harper_get_core_version());
 	puts("");
@@ -136,10 +138,11 @@ main(int argc, char* argv[])
 	int start;
 	int end;
 
-	char* SHORTOPTS = "c:d:fno:O:qshv";
+	char* SHORTOPTS = "c:d:efno:O:qshv";
 	static struct option LONGOPTS[] =
 	{
 		/* Set flags. */
+		{"exit-normally", no_argument, &exit_mistakes, 0},
 		{"fix", no_argument, &fix, 1},
 		{"number", no_argument, &number, 1},
 		{"quiet", no_argument, &verbosity, 1},
@@ -166,6 +169,9 @@ main(int argc, char* argv[])
 				break;
 			case 'd':
 				delimiter = optarg;
+				break;
+			case 'e':
+				exit_mistakes = 0;
 				break;
 			case 'f':
 				fix = 1;
@@ -264,5 +270,5 @@ main(int argc, char* argv[])
 
 		line_number++;
 	}
-	return mistakes ? 1 : 0;
+	return mistakes ? exit_mistakes : 0;
 }
