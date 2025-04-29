@@ -5,18 +5,19 @@ DESTDIR ?= /usr/local
 MANDIR	?= $(DESTDIR)/share/man/man1
 
 grammar:
-	$(CC) $(CFLAGS) $(FEATURES) -o grammar -lharper_c grammar.c
+	$(CC) $(CFLAGS) $(FEATURES) -o grammar -lharper grammar.c
 
-install: grammar
+docs:
+	gzip -k grammar.1
+
+install: grammar docs
 	chmod a+x grammar
 	cp grammar $(DESTDIR)/bin/grammar
-	gzip -k grammar.1	 
 	cp grammar.1.gz $(MANDIR)/grammar.1.gz
 
-install-symlink: grammar
+install-symlink: grammar docs
 	chmod a+x grammar
 	ln -s $(PWD)/grammar $(DESTDIR)/bin/grammar
-	gzip -k grammar.1
 	ln -s $(PWD)/grammar.1.gz $(MANDIR)/grammar.1.gz
 
 clean:

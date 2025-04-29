@@ -14,6 +14,9 @@ typedef struct Document Document;
 typedef struct Lint Lint;
 typedef struct LintGroup LintGroup;
 
+// Get Harper version
+char* harper_get_lib_version();
+
 // Create a new document from plain English text
 // Returns NULL on error
 Document* harper_create_document(const char* text);
