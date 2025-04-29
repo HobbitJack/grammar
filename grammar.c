@@ -23,7 +23,7 @@ static char* suggestion_file = "-";
 void
 help(char* progname)
 {
-	printf("Usage: %s [OPTION] [FILE]\n", progname);
+	printf("Usage: %s [OPTION]... [FILE]\n", progname);
 	puts("Perform grammar checking with 'harper'.");
 	puts("");
 	puts("With no FILE, or when FILE is -, read standard input.");
@@ -48,11 +48,11 @@ help(char* progname)
 void
 version(char* progname)
 {
-	printf("%s v1.2.1\n", progname);
+	printf("%s v1.2.2\n", progname);
 	printf("harper-c v%s\n", harper_get_lib_version());
 	printf("harper-core v%s\n", harper_get_core_version());
 	puts("");
-	puts("Copyright (C) 2024 Jack Renton Uteg.");
+	puts("Copyright (C) 2025 Jack Renton Uteg.");
 	puts("License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.");
 	puts("This is free software: you are free to change and redistribute it.");
 	puts("There is NO WARRANTY, to the extent permitted by law.");
