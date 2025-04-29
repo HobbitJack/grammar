@@ -2,7 +2,7 @@
 `grammar` is a grammar-checking command-line program using the `harper` grammar-checking library.
 As support for the C interface is currently not yet merged into upstream, you will need to use the `how-to-use-harper-from-c` branch at https://github.com/hippietrail/harper/.
 
-## INSTALLTION
+## INSTALLATION
 Installation is currently semi-manual.
 After compiling `libharper_c.so`, you'll need to move that to some place your compiler/linker can find it (I symlinked it to `/usr/lib/libharper_c.so`).
 Then, build and installe the program with
@@ -10,15 +10,15 @@ Then, build and installe the program with
 $ make
 $ make install
 $ make clean
-```.
+```
 
 Uninstallation can be done with
 ```
-make uninstall
-```.
+$ make uninstall
+```
 
 An alternative installation process for development is
 ```
-make install-symlink
+$ make install-symlink
 ```
 which will install to the destination the program and gzipped man page as symlinks.
