@@ -118,7 +118,7 @@ main(int argc, char* argv[])
 	int char_code;
 
 	FILE* input;
-	FILE* doc_output; 
+	FILE* doc_output;
 	FILE* sug_output;
 
 	int line_number;
@@ -131,6 +131,7 @@ main(int argc, char* argv[])
 	LintGroup* line_linter;
 	int line_lint_count;
 	Lint** line_lints;
+	char* lint_message;
 
 	int start;
 	int end;
@@ -197,7 +198,7 @@ main(int argc, char* argv[])
 	{
 		input_file = argv[optind];
 		optind++;
-	}	
+	}
 
 	//We only take one file; use `cat` if you want to do >1 at once.
 	if (argc - optind)
@@ -215,52 +216,51 @@ main(int argc, char* argv[])
 
 	line_number = 1;
 	mistakes = 0;
-	while(getline(&line, &line_length, input) > 0)
+	while (getline(&line, &line_length, input) > 0)
 	{
 		if (verbosity <= 1)
 			fprintf(doc_output, "%s", line); // Newline always included =P
 
-	    if ((line_document = harper_create_document(strip(line))) == NULL)
+		if ((line_document = harper_create_document(strip(line))) == NULL)
 		{
-	        fprintf(stderr, "%s: Failed to create document\n", progname);
-	        return 127;
+			fprintf(stderr, "%s: Failed to create document\n", progname);
+			return 127;
 		}
 
-	    // Create a lint group
-	    if ((line_linter = harper_create_lint_group()) == NULL)
+		// Create a lint group
+		if ((line_linter = harper_create_lint_group()) == NULL)
 		{
-	        fprintf(stderr, "%s: Failed to create lint group\n", progname);
-	        harper_free_document(line_document);
-	        return 127;
-	    }
-    
-	    // Get and print lints
-	    if ((line_lints = harper_get_lints(line_document, line_linter, &line_lint_count)) != NULL)
+			fprintf(stderr, "%s: Failed to create lint group\n", progname);
+			harper_free_document(line_document);
+			return 127;
+		}
+
+		// Get and print lints
+		if ((line_lints = harper_get_lints(line_document, line_linter, &line_lint_count)) != NULL)
 		{
-	        for (int i = 0; i < line_lint_count; i++)
+			for (int i = 0; i < line_lint_count; i++)
 			{
-	            char* message = harper_get_lint_message(line_lints[i]);
-	            if (message != NULL)
+				if ((lint_message = harper_get_lint_message(line_lints[i])) != NULL)
 				{
-	                start = harper_get_lint_start(line_lints[i]);
-	                end = harper_get_lint_end(line_lints[i]);
+					start = harper_get_lint_start(line_lints[i]);
+					end = harper_get_lint_end(line_lints[i]);
 					if (!verbosity)
 					{
 						if (number)
-							fprintf(sug_output, "%s%u:%u '%.*s': %s\n", delimiter, line_number, start+1, end - start, line + start, message);
+							fprintf(sug_output, "%s%u:%u '%.*s': %s\n", delimiter, line_number, start + 1, end - start, line + start, lint_message);
 						else
-			                fprintf(sug_output, "%s'%.*s': %s\n", delimiter, end - start, line + start, message);
+							fprintf(sug_output, "%s'%.*s': %s\n", delimiter, end - start, line + start, lint_message);
 					}
-	                free(message);
+					free(lint_message);
 					mistakes++;
-	            }
-	        }
-	        harper_free_lints(line_lints, line_lint_count);
-	    }
-    
-	    // Clean up
-	    harper_free_lint_group(line_linter);
-	    harper_free_document(line_document);
+				}
+			}
+			harper_free_lints(line_lints, line_lint_count);
+		}
+
+		// Clean up
+		harper_free_lint_group(line_linter);
+		harper_free_document(line_document);
 
 		line_number++;
 	}
