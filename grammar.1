@@ -1,0 +1,67 @@
+.TH GRAMMAR "1" "April 2025" "grammar v1.0.0" "User Commands"
+.SH NAME
+grammar \- check grammar
+.SH SYNOPSIS
+.B grammar
+[\fI\,OPTION\/\fR] [\fI\,FILE\/\fR]
+.SH DESCRIPTION
+Perform command-line grammar checking using the 'harper' library.
+.PP
+With no \fIFILE\fR, or when \fIFILE\fR is \-, read standard input.
+.PP
+Mandatory options to long options are mandatory for short options too.
+.TP
+\fB\-c\fR, \fB\-\-comment\fR=\fI\,COMMENT\/\fR
+All lines starting with any character in \fICOMMENT\fR will be ignored; use this to ignore (for example) embeds in a Markdown document.
+.TP
+\fB\-d\fR, \fB\-\-delimiter\fR=\fI\,DELIMITER\/\fR
+Outputted suggestions will start with the \fIDELIMITER\fR string.
+.TP
+\fB\-f\fR, \fB\-\-fix\-file\fR
+\fB(NOT YET IMPLEMENTED)\fR
+.br
+Automatically apply suggestions, where possible.
+.TP
+\fB\-n\fR, \fB\-\-number\-lines\fR
+For each suggestion, also include the line number and the column number of the start of the grammatical error.
+.TP
+\fB\-o\fR, \fB\-\-document\-output\fR=\fI\,FILE\/\fR
+Output document text to \fIFILE\fR, instead of STDOUT.
+.TP
+\fB\-O\fR, \fB\-\-suggestion\-output\fR=\fI\,FILE\/\fR
+Output suggestions to \fIFILE\fR, instead of STDOUT.
+.TP
+\fB\-q\fR, \fB\-\-quiet\fR
+Skip printing suggestions.
+This has little use (and is similar to \fB\-O\fI/dev/null\fR) but skips printing entirely.
+Useful with \fB\-f\fR, to directly correct a document without including any suggestions.
+.TP
+\fB\-s\fR, \fB\-\-silent\fR
+Do not output anything (crashes will still be output to STDERR).
+This can be useful if you only want to check for the presence of grammatical errors with e.g. \fBtest(1)\fR.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Display a short help message and exit.
+.TP
+\fB\-v\fR, \fB\-\-version\fR
+Display a version information message and exit.
+.SH EXIT CODES
+.TP
+.B 0
+Normal execution; no grammatical errors found.
+.TP
+.B 1
+Normal execution; grammatical errors found.
+.TP
+.B 127
+Abnormal execution; something went wrong.
+.SH AUTHOR
+Written by Jack R. Uteg.
+.SH COPYRIGHT
+Copyright \(co 2024 Jack Renton Uteg.
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
+.br
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+.SH SEE ALSO
+\fBtest(1)\fR
