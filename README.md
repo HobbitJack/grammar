@@ -10,15 +10,15 @@ Then, build and installe the program with
 $ make
 $ make install
 $ make clean
-```.
+```
 
 Uninstallation can be done with
 ```
-make uninstall
-```.
+$ make uninstall
+```
 
 An alternative installation process for development is
 ```
-make install-symlink
+$ make install-symlink
 ```
 which will install to the destination the program and gzipped man page as symlinks.
