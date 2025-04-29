@@ -48,7 +48,7 @@ help(char* progname)
 void
 version(char* progname)
 {
-	printf("%s v1.2.0\n", progname);
+	printf("%s v1.2.1\n", progname);
 	printf("harper-c v%s\n", harper_get_lib_version());
 	printf("harper-core v%s\n", harper_get_core_version());
 	puts("");
@@ -226,6 +226,9 @@ main(int argc, char* argv[])
 	{
 		if (verbosity <= 1)
 			fprintf(doc_output, "%s", line); // Newline always included =P
+
+		if (strspn(line, comment))
+			continue;
 
 		if ((line_document = harper_create_document(strip(line))) == NULL)
 		{
