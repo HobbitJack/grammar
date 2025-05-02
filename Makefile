@@ -8,26 +8,25 @@ grammar:
 	$(CC) $(CFLAGS) $(FEATURES) -o grammar -lharper grammar.c
 
 docs:
+	rm -f grammar.1.gz
 	gzip -k grammar.1
 
 install: grammar docs
-	chmod a+x grammar
-	cp grammar $(DESTDIR)/bin/grammar
-	cp grammar.1.gz $(MANDIR)/grammar.1.gz
+	cp -f grammar $(DESTDIR)/bin/grammar
+	cp -f grammar.1.gz $(MANDIR)/grammar.1.gz
 
 install-symlink: grammar docs
-	chmod a+x grammar
-	ln -s $(PWD)/grammar $(DESTDIR)/bin/grammar
-	ln -s $(PWD)/grammar.1.gz $(MANDIR)/grammar.1.gz
+	ln -fs $(PWD)/grammar $(DESTDIR)/bin/grammar
+	ln -fs $(PWD)/grammar.1.gz $(MANDIR)/grammar.1.gz
 
 clean:
-	rm grammar
-	rm grammar.1.gz
+	rm -f grammar
+	rm -f grammar.1.gz
 
 install-clean:
 	install
 	clean
 
 uninstall:
-	rm $(DESTDIR)/bin/grammar
-	rm $(MANDIR)/grammar.1.gz
+	rm -f $(DESTDIR)/bin/grammar
+	rm -f $(MANDIR)/grammar.1.gz
