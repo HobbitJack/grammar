@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <getopt.h>
 #include <libgen.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,6 +20,20 @@ static char* delimiter = "";
 static char* input_file = "-";
 static char* output_file = "-";
 static char* suggestion_file = "-";
+
+#ifdef DEBUG
+static char* current_line;
+static char* current_lint_message;
+
+void
+print_lint_on_segfault(int c_signal)
+{
+	puts("---------------SEGMENTATION VIOLATION---------------");
+	printf("%s\n", current_line);
+	//printf("%s\n", current_lint_message);
+	exit(127);
+}
+#endif
 
 void
 help(char* progname)
@@ -138,6 +153,10 @@ main(int argc, char* argv[])
 	int start;
 	int end;
 
+	#ifdef DEBUG
+	signal(SIGSEGV, print_lint_on_segfault);
+	#endif
+
 	char* SHORTOPTS = "c:d:efno:O:qshv";
 	static struct option LONGOPTS[] =
 	{
@@ -251,6 +270,11 @@ main(int argc, char* argv[])
 			{
 				if ((lint_message = harper_get_lint_message(line_lints[i])) != NULL)
 				{
+					#ifdef DEBUG
+					current_line = line;
+					current_lint_message = lint_message;
+					#endif
+
 					start = harper_get_lint_start(line_lints[i]);
 					end = harper_get_lint_end(line_lints[i]);
 					if (!verbosity)
@@ -271,6 +295,7 @@ main(int argc, char* argv[])
 		harper_free_lint_group(line_linter);
 		harper_free_document(line_document);
 
+		line = NULL;
 		line_number++;
 	}
 	return mistakes ? exit_mistakes : 0;

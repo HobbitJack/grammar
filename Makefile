@@ -7,6 +7,9 @@ MANDIR	?= $(DESTDIR)/share/man/man1
 grammar:
 	$(CC) $(CFLAGS) $(FEATURES) -o grammar -lharper grammar.c
 
+debug:
+	$(CC) $(CFLAGS) -DDEBUG -g $(FEATURES) -o grammar_debug -lharper grammar.c
+
 docs:
 	rm -f grammar.1.gz
 	gzip -k grammar.1
@@ -19,8 +22,12 @@ install-symlink: grammar docs
 	ln -fs $(PWD)/grammar $(DESTDIR)/bin/grammar
 	ln -fs $(PWD)/grammar.1.gz $(MANDIR)/grammar.1.gz
 
+install-debug: debug
+	cp -f grammar_debug ~/.local/bin/grammar_debug
+
 clean:
 	rm -f grammar
+	rm -f grammar_debug
 	rm -f grammar.1.gz
 
 install-clean:
